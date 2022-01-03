@@ -1,7 +1,7 @@
 # pull official base image
 FROM python:3.10-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # prevents Python from writing pyc files to disc
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -15,3 +15,4 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
+

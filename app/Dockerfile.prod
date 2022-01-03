@@ -1,0 +1,36 @@
+# pull official base image
+FROM python:3.10-alpine
+
+WORKDIR /usr/src/app
+
+# prevents Python from writing pyc files to disc
+ENV PYTHONDONTWRITEBYTECODE=1
+# prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED=1
+
+# install dependencies
+RUN pip install --upgrade pip
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+
+# create directory for the app user
+RUN mkdir -p /home/app
+
+# create the app user
+RUN addgroup -S app && adduser -S app -G app
+
+# create the appropriate directories
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# copy project
+COPY . $APP_HOME
+
+# chown all the files to the app user
+RUN chown -R app:app $APP_HOME
+
+# change to the app user
+USER app
