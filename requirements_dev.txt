@@ -1,0 +1,8 @@
+black==23.3.0
+django-stubs[compatible-mypy]==1.16.0
+djangorestframework-stubs==1.10.0
+isort==5.12.0
+mypy==1.1.1
+pre-commit==3.2.2
+pylint==2.17.2
+pylint-django==2.5.3
