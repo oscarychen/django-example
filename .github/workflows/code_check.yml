@@ -1,0 +1,63 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgis/postgis:15-3.3
+        env:
+          POSTGRES_USER: postgres_tester
+          POSTGRES_PASSWORD: postgres_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install binutils libproj-dev
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_dev.txt
+
+    - name: run checks
+      env:
+        DJANGO_SETTINGS_MODULE: django_example.settings
+        DJANGO_DEBUG: true
+        DATABASE_HOST: 127.0.0.1
+        DATABASE_NAME: postgres
+        DATABASE_USER: postgres_tester
+        DATABASE_PASSWORD: postgres_test
+        DATABASE_PORT: 5432
+      run: |
+        python manage.py test &&
+        python -m isort . &&
+        python -m pylint *.py --load-plugins=pylint_django --django-settings-module=client_backend.settings &&
+        python -m mypy . &&
+        python -m black .

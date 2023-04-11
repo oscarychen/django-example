@@ -1,13 +1,37 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  web:
-    build: ./app
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./app/:/usr/src/app/
+  django-example-db:
+    image: postgis/postgis:15-3.3
+    container_name: 'django-example-db'
     ports:
-      - "8000:8765"
-      - "5432:5432"
-    env_file:
-      - ./.env.dev
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=django_example_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=""
+    networks:
+      - django-example
+    volumes:
+      - django-example-db:/var/lib/postgresql/data
+
+  django-example-backend:
+   build:
+     context: .
+     dockerfile: Dockerfile
+   container_name: 'django-example-backend'
+   ports:
+     - '8000:8000'
+   env_file:
+     - .env
+   depends_on:
+     - django-example-db
+   networks:
+     - django-example
+
+volumes:
+  django-example-db:
+
+networks:
+  django-example:
+    driver: bridge
