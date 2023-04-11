@@ -133,3 +133,10 @@ dmypy.json
 
 .idea/
 .vscode/
+
+
+# Terraform
+**/.terraform/*
+*.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
