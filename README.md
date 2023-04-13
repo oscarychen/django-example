@@ -1,26 +1,29 @@
 # Django Example
 This is my template Django application for standing up new projects, with configuration for enforcing strict typing,
-code formatting with pre-commit hooks, as well as configurations for GitHub Action and Docker.
+code formatting with pre-commit hooks, as well as configurations for GitHub Actions and Docker.
 
 ## Quick start
-_These are designed for Mac/Linux, if you are using Windows you can run Makefile commands from a
-Bash-like shell such as GitBash_
 
+_If you are using Windows you can run Makefile commands from a Bash-like shell such as GitBash_
+
+Set up project environment:
 ```shell
 make conda-setup  # if Conda available on Path (Recommended)
-make system-setup # Or, Use the Python on your Path to set up
-
+make system-setup # Or, Use the Python on your Path to set up (Requires Python 3.11)
 make dot-env      # create .env from template
+```
+Run Django development server:
+```shell
 make migrate      # run Django migrations
 make run          # run Django application server
 ```
-
+Check & format code:
 ```shell
 make check        # Run Linter, formatter, and type checker
 make fmt          # Format code
 ```
 
-## How this repository was made from scratch
+## How this project was created
 
 ### Preparation
 You can install the desired version of Python directly on your machine,
@@ -74,7 +77,8 @@ python manage.py runserver
 ```
 ### Define environment variables
 create [.env](.env) and [.env.template](.env.template) files with environment variables.
-For now, they can have content, but we will check the .env.template into git, while ignore .env from the repository.
+For now, they have identical content, but we will check the .env.template into git,
+while ignore .env from the repository.
 
 ### Configure Django settings
 Configure [django_example/settings.py](django_example/settings.py):
@@ -162,7 +166,7 @@ Remember to update the `django_setting_module` configuration in this file when c
 
 You may also ignore type error inline:
 ```python
-blahh # type: ignore[no-any-unimported]
+blahh # type: ignore
 ```
 
 ## Add pre-commit hooks
@@ -199,6 +203,9 @@ This runs Black, Pylint, and Mypy using pre-commit hooks to check code quality.
 
 ### `make fmt`
 This uses Black, Pylint, Isort to automatically reformat code.
+
+### `make test`
+Runs Django unittest.
 
 ### `make migrations [args]`
 This is equivalent to `python manage.py makemigrations` with venv activated. You can also provide additional arguments by passing them as
