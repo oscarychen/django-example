@@ -56,8 +56,5 @@ jobs:
         DATABASE_PASSWORD: postgres_test
         DATABASE_PORT: 5432
       run: |
-        python manage.py test &&
-        python -m isort . &&
-        python -m pylint *.py --load-plugins=pylint_django --django-settings-module=client_backend.settings &&
-        python -m mypy . &&
-        python -m black .
+        pre-commit run --all-files &&
+        python manage.py test

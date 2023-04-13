@@ -29,6 +29,7 @@ conda-setup: setup-conda-python setup-venv python-requirements
 system-setup: python-requirements
 
 test:
+	. environment/bin/activate && \
 	./manage.py test $(args)
 
 run:
