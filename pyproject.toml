@@ -22,5 +22,8 @@ disable = [
     "invalid-name",
     "fixme",
     "duplicate-code",
-    "too-few-public-methods"
+    "too-few-public-methods",
+    "abstract-method",
+    "raise-missing-from",
+    "too-many-arguments",
 ]

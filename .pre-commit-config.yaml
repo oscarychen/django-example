@@ -57,6 +57,7 @@ repos:
       - id: mypy
         language: system
         exclude: "^.*/test_.*\\.py$"
+        args: ["--config-file=mypy.ini"]
 
   - repo: https://github.com/psf/black
     rev: 23.1.0
