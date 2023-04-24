@@ -22,6 +22,7 @@ repos:
       - id: detect-aws-credentials
         args: ["--allow-missing-credentials"]
       - id: detect-private-key
+        exclude: ".env.template"
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
       - id: mixed-line-ending
